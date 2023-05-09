@@ -75,7 +75,7 @@ type RegisterInput = TypeOf<typeof registerSchema>;
 export const ReactHookForm: React.FC<{}> = () => {
   const [hobbies, setHobbies] = React.useState<string[]>([]);
   const [conutryName, setconutryName] = React.useState<string>();
-  const { register, reset, formState: { errors, isSubmitSuccessful },handleSubmit, control, setValue } = useForm<RegisterInput>({
+  const { register, reset, formState: { errors, isSubmitSuccessful },handleSubmit, control, setValue, watch } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema)
   });
   const theme = useTheme();
@@ -87,6 +87,8 @@ export const ReactHookForm: React.FC<{}> = () => {
   const onSubmitHandler: SubmitHandler<RegisterInput> = (values) => {
     alert(JSON.stringify(values, null, 2));
   }
+
+  const myFieldArray = watch("countries");
 
   return (
     <Container maxWidth="md" sx={{
@@ -238,7 +240,7 @@ export const ReactHookForm: React.FC<{}> = () => {
                                 <Typography data-testid="address-error" variant='subtitle1' color='error'>*{(errors.countries && errors.countries[index] && errors.countries[index]?.country && errors.countries[index]?.country?.message) ? errors.countries[index]?.country?.message : ''}</Typography>
                             ) : null}
                           </Grid>
-                          {conutryName && conutryName.length > 0 && 
+                          {myFieldArray[index].country && myFieldArray[index].country.length > 0 && 
                           <Grid item xs={12} md={3} sx={{ padding:'0 15px' }}>
                             <Box sx={{ width: '100%', background: '#fff' }}>
                               <FormControl fullWidth>
@@ -252,10 +254,10 @@ export const ReactHookForm: React.FC<{}> = () => {
                                   label="City"
                                   onChange={onChange}
                                 >
-                                {conutryName && conutryName === "Germany" && <MenuItem value={'Frankfurt'}>Frankfurt</MenuItem>}
-                                {conutryName && conutryName === "Germany" && <MenuItem value={'Berlin'}>Berlin</MenuItem>}
-                                {conutryName && conutryName === "France" && <MenuItem value={'Paris'}>Paris</MenuItem>}
-                                {conutryName && conutryName === "France" &&   <MenuItem value={'Lille'}>Lille</MenuItem>}
+                                {myFieldArray[index].country && myFieldArray[index].country === "Germany" && <MenuItem value={'Frankfurt'}>Frankfurt</MenuItem>}
+                                {myFieldArray[index].country && myFieldArray[index].country === "Germany" && <MenuItem value={'Berlin'}>Berlin</MenuItem>}
+                                {myFieldArray[index].country && myFieldArray[index].country === "France" && <MenuItem value={'Paris'}>Paris</MenuItem>}
+                                {myFieldArray[index].country && myFieldArray[index].country === "France" &&   <MenuItem value={'Lille'}>Lille</MenuItem>}
                                 </Select>
                                 )}
                                 />
@@ -266,7 +268,7 @@ export const ReactHookForm: React.FC<{}> = () => {
                             ) : null}
                           </Grid>
                           }
-                          {conutryName && conutryName.length > 0 && 
+                          {myFieldArray[index].country && myFieldArray[index].country.length > 0 && 
                           <Grid item xs={12} md={3} sx={{ padding:'0 15px' }}>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                               <Controller control={control} name={`countries.${index}.visitedDate`} render={({ field: { onChange, name, value } })=> (
