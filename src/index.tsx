@@ -1,8 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { UserForm } from './App';
+import { App } from './App';
+import { FormikForm } from './Forms/Formik/Formik';
+import { ReactHookForm } from './Forms/React-Hook-Form/ReactHookForm';
 import reportWebVitals from './reportWebVitals';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  {
+    path: "/formik",
+    element: <FormikForm />,
+  },
+  {
+    path: "/react-hook",
+    element: <ReactHookForm />,
+  },
+]);
 
 
 const root = ReactDOM.createRoot(
@@ -10,7 +31,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-      <UserForm />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
